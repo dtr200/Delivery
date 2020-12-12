@@ -9,57 +9,64 @@ class Offers extends City{
 		this.sortByPriceButton = '';
 		this.sortBySpeedButton = '';
 		this.usedOffers = [];
+		this.toCountry = '';
+		this.toCity = '';
+		this.toRegion = '';
     }
 
     /** Проверяю localStorage на наличие delivery */
 
 	checkDelivery() {
 		// если есть
-		if (localStorage[`delivery${location.pathname}`]) {
+		if (localStorage[`delivery${location.pathname}`]) {			
 			let parsedDelivery = JSON.parse(localStorage[`delivery${location.pathname}`]);
-			console.log(parsedDelivery);
 			this.currentCity = localStorage.userCity || localStorage.cities;
 			this.currentCity = JSON.parse(this.currentCity);
-			console.log(this.currentCity)
 			if(parsedDelivery.errors){
 				const txt = 'Ошибка получения цен';
 				super.createPlaces(null, this.localPriceContainer, txt);
 			}else{
 				parsedDelivery.city[0] == this.currentCity[0][0] && parsedDelivery.city[1] == this.currentCity[0][1] ?
-				this.pasteDelivery() : this.getDeliveryPrices();
+				this.pasteDelivery() : this.pickupFromStorage();
 			}			
 		}
 		else {
 			// если нет
-			this.getDeliveryPrices();
+			this.pickupFromStorage();
 		}
-	};
+	}
 
 	/** Запрос на получения цены и сроков доставки */
 
 	pickupFromStorage(){
-		
+		this.toCountry = localStorage.country == "Россия" ? 'RU' :
+			localStorage.country == "Беларусь" ? 'BY' :
+				localStorage.country == "Казахстан" ? 'KZ' : false;
+		this.toCity = localStorage.userCity || localStorage.cities;
+		if(!this.toCity) {
+			const interval = setInterval(() => {
+				this.toCity = localStorage.userCity || localStorage.cities;
+				if(this.toCity){
+					clearInterval(interval);
+					this.getDeliveryPrices();
+				}
+			}, 50);			
+		}
+		else
+			this.getDeliveryPrices();
 	}
 	
 	getDeliveryPrices() {
-		let toCountry = localStorage.country == "Россия" ? 'RU' :
-			localStorage.country == "Беларусь" ? 'BY' :
-				localStorage.country == "Казахстан" ? 'KZ' : false,
-			toCity = localStorage.userCity || localStorage.cities,
-			toRegion;
-		
-		if(!toCity) {
-					
-		}
-		toCity = JSON.parse(toCity);
+		this.toCity = JSON.parse(this.toCity);
+		this.currentCity = this.toCity;
 
-		if (toCity[0].length == 2) {
-			toCity = toCity[0][1];
-			toRegion = '';
+		if (this.toCity[0].length == 2) {
+			this.toCity = this.toCity[0][1];
+			this.toRegion = '';
 		}
 		else {
-			toRegion = toCity[0][1];
-			toCity = toCity[0][2];
+			this.toRegion = this.toCity[0][1];
+			this.toCity = this.toCity[0][2];
 		};
 
 		let fromCountry = 'RU',
@@ -71,23 +78,21 @@ class Offers extends City{
 			deliver = 0,
 			insurance = 0;
 
-		let url = `https://capi.sbl.su/calc/place?from-country=${fromCountry}&from-city=${fromCity}&from-area=${fromRegion}&to-country=${toCountry}&to-city=${toCity}&to-area=${toRegion}&hsw[]=0&weights[]=${weight}&volumes[]=${volume}&quantities[]=1&palletize[]=0&lathing[]=0&need-pickup=${pickup}&need-deliver=${deliver}&widget=dostavka&palletize[]=0&need-insuring=${insurance}&cargo-price=0&need-labeling=0`,
+		let url = `https://capi.sbl.su/calc/place?from-country=${fromCountry}&from-city=${fromCity}&from-area=${fromRegion}&to-country=${this.toCountry}&to-city=${this.toCity}&to-area=${this.toRegion}&hsw[]=0&weights[]=${weight}&volumes[]=${volume}&quantities[]=1&palletize[]=0&lathing[]=0&need-pickup=${pickup}&need-deliver=${deliver}&widget=dostavka&palletize[]=0&need-insuring=${insurance}&cargo-price=0&need-labeling=0`,
 			req = new XMLHttpRequest();
 
-		req.onreadystatechange = () => {
-			if (req.readyState != 4 && req.status != 200) return
+		req.onload = () => {
 				const resp = JSON.parse(req.response);
 				this.parseDelivery(resp);
 		}
 		req.open('GET', url, true);
 		req.setRequestHeader('Accept', 'application/json, text/javascript');
 		req.send();
-	};
+	}
 
 	/** Распарсиваю и сохраняю в локалсторедже  */
 
 	parseDelivery(resp) {
-		console.log(resp)
 		if (resp.result) {
 			let city;
 			localStorage.userCity ? city = JSON.parse(localStorage.userCity) :
@@ -104,7 +109,7 @@ class Offers extends City{
 			localStorage.setItem(`delivery${location.pathname}`, JSON.stringify(info));
 		};
 		this.pasteDelivery();
-	};
+	}
 
 	/** Создаю и ставлю все офферы */
 
@@ -131,7 +136,7 @@ class Offers extends City{
 			this.localPriceContainer.innerHTML = `<span class="delivery-widget-offers-scaning">Ничего не найдено</span>`
 		}
 		this.usedOffers = [];
-	};
+	}
 
 	/** Добавляю оффер для Москвы и области */
 
@@ -143,7 +148,7 @@ class Offers extends City{
 		else if (this.currentCity[0][1] == 'Москва' || this.currentCity[0][2] == 'Москва')
 			return this.createLocal(data, 'Москве', 500, 1);
 		else return data
-	};
+	}
 
 	/** Создаю местную доставку и ставлю ее в начало массива всех доставок */
 
@@ -155,7 +160,7 @@ class Offers extends City{
 		};
 		data.unshift(local);
 		return data
-	};
+	}
 
 	/** Непосредственно создание оффера */
 
@@ -193,7 +198,7 @@ class Offers extends City{
 		logo ? logoContainer.append(title, logo) : logoContainer.append(title);
 		mainContainer.append(logoContainer, textContainer);
 		return mainContainer;
-    };
+    }
 	
 	/** Сортировки */
 

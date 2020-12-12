@@ -43,7 +43,6 @@ class City{
 			try {
 				const response = JSON.parse(req.responseText);
 				getDelivery(response);
-
 			} catch (e) {
 				this.cityContainer.innerHTML = `<span class='delivery-widget-route-to-cont-scaning'>Ошибка</span>`;
 			}
