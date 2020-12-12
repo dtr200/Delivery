@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delivery widget</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="delivery-widget">
+
+        <div class='delivery-widget-head' tabindex='0'>
+            <span>Доставка</span>
+        </div>
+
+        <div class='delivery-widget-route'>
+            <div class='delivery-widget-route-from'>
+                <span class='delivery-widget-route-from-sign'>из:</span>
+                <span class='delivery-widget-route-from-city'>Москва</span>
+            </div>
+            <div class='delivery-widget-route-to'>
+                <span class='delivery-widget-route-to-sign'>в:</span>
+                <div class='delivery-widget-route-to-cont'>
+                    <span class='delivery-widget-route-to-cont-scaning'>Определяем...</span>
+                </div>
+            </div>
+        </div>
+
+        <div class='delivery-widget-choise'>
+            <div class='delivery-widget-choise-cheap' tabindex='0'>
+                <span class='delivery-widget-choise-cheap-text'>Дешевле</span>
+            </div>
+            <div class='delivery-widget-choise-fast' tabindex='0'>
+                <span class='delivery-widget-choise-fast-text'>Быстрее</span>
+            </div>
+        </div>
+
+        <div class='delivery-widget-offers'>
+           <div class='delivery-widget-offers-head'>
+               <span class='delivery-widget-offers-head-price'>Цена</span>
+               <span class='delivery-widget-offers-head-time'>Срок</span>
+           </div>
+           <div class='delivery-widget-offers-container'>
+               <span class='delivery-widget-offers-scaning'>Ждем город...</span>
+           </div>                                                                         
+        </div>
+
+        <div class='delivery-widget-offers-copyright'>
+            <span>Стоимость является ориентировочной</span>
+            <span>Использует систему <a href='https://kto-dostavit.ru/'>kto-dostavit.ru</a></span>
+        </div>
+
+    </div>
+    <script src="classes/City.js"></script>
+    <script src="classes/Offers.js"></script>  
+    <script src="js/cityData.js"></script>    
+    <script src="js/offersData.js"></script>
+</body>
+</html>
