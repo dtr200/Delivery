@@ -1,5 +1,5 @@
 const cityData = {
-                'dadataToken': '612cd84133fd3d569b4facad7c50edf7ff642305',
+                'dadataToken': 'your-token',
                 'dadataURL': 'https://suggestions.dadata.ru/suggestions/api/4_1/rs/iplocate/address',
                 'cityContainer': '.delivery-widget-route-to-cont',
                 'priceContainer': '.delivery-widget-offers-container',
@@ -29,7 +29,7 @@ const cityData = {
                 ],
                 'offers': {
                         'images': {
-                            'Наша доставка по Москве': '',
+                        'Наша доставка по Москве': '',
                         'Наша доставка по МО': '',
                         'ТК «Энергия»': 'img/delivery/nrj.jpg',
                         'ТК «Деловые линии»': 'img/delivery/dellin.png',

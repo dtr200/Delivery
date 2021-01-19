@@ -1,6 +1,7 @@
 body{
     display: flex;
-    justify-content: center;
+	justify-content: center;
+	font-family: 'Calibri', sans-serif;
 }
 
 .delivery-widget{
@@ -16,13 +17,7 @@ rgba(0,0,0, .06);
 }
 .delivery-widget-head{
 	text-align:center;
-/* 	font-weight:bold; */
 	font-size:17px;
-/* 	text-transform:uppercase; */
-}
-.delivery-widget-route{
-/* 	height:50px; 
-	padding:2px 5px;*/
 }
 .delivery-widget-route-from,
 .delivery-widget-route-to{
@@ -275,6 +270,7 @@ rgba(0,0,0, .06);
 }
 .modal-head-countries-ul{
 	display: flex;
+	padding-left: 0;
 }
 .modal-head-countries li{
 	font-weight:bold;
@@ -283,8 +279,8 @@ rgba(0,0,0, .06);
 }
 .modal-geo-ul{
 	font-size: 12px;
-	-moz-column-count: 3;
-	     column-count: 3;
+	-moz-column-count: 4;
+	     column-count: 4;
 	border-top: 1px solid silver;
 	border-bottom: 1px solid silver;
 	padding: 10px 0;
@@ -294,13 +290,18 @@ rgba(0,0,0, .06);
 	display:flex;
 	flex-direction:column;
 	margin-bottom:7px;
+	-webkit-column-break-inside: avoid;
+	page-break-inside: avoid;
+	break-inside: avoid;
 }
 .modal-body{
 	display: flex;
-	justify-content: center;
 }
 .modal-body-largest{
 	font-weight: bold;
+}
+.modal-body-cities{
+	flex-grow: 1;
 }
 .modal-body-cities-ul{
 	-moz-column-count: 4;
@@ -312,6 +313,7 @@ rgba(0,0,0, .06);
 	grid-template-columns: repeat(10);
 	grid-template-rows: repeat(3);
 	margin-right: 20px;
+	padding-left: 0;
 }
 .modal-body-largest-ul li{
 
@@ -319,7 +321,6 @@ rgba(0,0,0, .06);
 .modal-head-countries-ul,
 .modal-body-largest-ul, .modal-body-cities-ul{
 	list-style: none;
-	/* width: max-content; */
 	font-size:14px;
 	-moz-column-gap: 20px;
 	     column-gap: 20px;
@@ -328,6 +329,10 @@ rgba(0,0,0, .06);
 @media (max-width: 1440px){
 	.wm-modal{
 		width: 75%;
+	}
+	.modal-geo-ul{
+		-moz-column-count: 3;
+		     column-count: 3;
 	}
 }
 @media (max-width: 800px){
@@ -340,12 +345,19 @@ rgba(0,0,0, .06);
 	}
 }
 @media(max-width: 600px){
+	.modal-geo-ul{
+		-moz-column-count: 2;
+		     column-count: 2;
+	}
 	.modal-body-cities-ul {
 		-moz-column-count: 2;
 		     column-count: 2;
 	}
 }
 @media(max-width: 450px){
+	.modal-head-countries-ul{
+		display: block;
+	}
 	.modal-body-cities-ul {
 		-moz-column-count: 1;
 		     column-count: 1;
@@ -354,6 +366,13 @@ rgba(0,0,0, .06);
 @media(max-width: 320px){
 	.modal-body{
 		flex-direction: column;
+	}
+	.modal-geo-ul{
+		-moz-column-count: 1;
+		     column-count: 1;
+	}
+	.modal-geo-ul li{
+		text-align: center;;
 	}
 	.modal-body-largest-ul,
 	.modal-body-cities-ul{

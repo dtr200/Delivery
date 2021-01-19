@@ -21,7 +21,6 @@ class City{
 		this.modalCitiesUL = '';
 		this.geoSection = '';
 		this.geoSectionUL = '';
-
 		this.offers = '';
 	}
 
@@ -105,10 +104,10 @@ class City{
 			this.cityContainer.innerHTML = '';
 			this.cityContainer.append(a);
 			/* this.cityContainer.append(cityLink);
-			this.countryContainer.append(countryLink); */ // === ПРОВЕРИТЬ! Добавит this.countryContainer! Проследить где еще встречается cityContainer
+			this.countryContainer.append(countryLink); */
 			this.priceContainer.innerHTML = `<span class='delivery-widget-offers-scaning'>Ищем варианты...</span>`;
 			return;
-			//this.checkDelivery(); // this.checkDelivery из файла Geo.js
+			//this.checkDelivery(); 
 		}
 		else if (cities) {
 			cities = JSON.parse(cities);
@@ -124,7 +123,7 @@ class City{
 					this.priceContainer.innerHTML = `<span class='delivery-widget-offers-scaning'>Ищем варианты...</span>`;
 				}
 				return;
-				//this.checkDelivery(); // this.checkDelivery из файла Geo.js
+				//this.checkDelivery();
 			}
 		}
 		else {
@@ -224,7 +223,7 @@ class City{
 
 	/** Добавляет города/страны */
 
-	createPlaces(source, container, content, className) {
+	createPlaces(source, container, content, className, event) {
 		if(!source) container.innerHTML = content;
 		else{
 			container.innerHTML = '';

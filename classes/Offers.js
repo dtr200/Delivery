@@ -22,9 +22,10 @@ class Offers extends City{
 			let parsedDelivery = JSON.parse(localStorage[`delivery${location.pathname}`]);
 			this.currentCity = localStorage.userCity || localStorage.cities;
 			this.currentCity = JSON.parse(this.currentCity);
-			if(parsedDelivery.errors){
+			if(parsedDelivery.errors){ 
 				const txt = 'Ошибка получения цен';
 				super.createPlaces(null, this.localPriceContainer, txt);
+				localStorage.removeItem(`delivery${location.pathname}`)
 			}else{
 				parsedDelivery.city[0] == this.currentCity[0][0] && parsedDelivery.city[1] == this.currentCity[0][1] ?
 				this.pasteDelivery() : this.pickupFromStorage();
@@ -35,6 +36,7 @@ class Offers extends City{
 			this.pickupFromStorage();
 		}
 	}
+
 
 	/** Запрос на получения цены и сроков доставки */
 
